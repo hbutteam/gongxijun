@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bean id="animal" class="com.qunar.fresh.gongxijun.book">
+    <property name="author" value="，木有鱼丸粗面" />
+</bean>
