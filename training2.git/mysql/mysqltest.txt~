@@ -1,0 +1,98 @@
+ 图书表
+id book_id author_id book_name pages press
+奖项表
+id book_id author_id cup_type cup_time
+作者表
+id author_id author_name content
+一、设计表，写出建表语句(我给出的字段内容、名称仅供参考，各位同学可以按照自己的设计建 表)
+
+
+create table library(   
+    id int(11) unsigned NOT NULL  primary key auto_increment 
+    comment '图书id',
+    book_id   int(9) unsigned not null default '1' comment '书本id', 
+    author_id int(6) unsigned not null default '1' comment '作者id',
+    book_name varchar(255)  default ''           comment '书本名字' ,
+    pages smallint comment  default '1' 	comment'页码',
+    press  varchar(255) default ''	        comment '出版社'
+)ENGINE=InnoDB AUTO_INCREMENT=11576749 DEFAULT CHARSET=utf8mb comment '图书表' ;    
+
+
+create table awards (
+    id int(11) unsigned not null primary key auto_increment
+     comment '奖项Id' ,
+    book_id   int(9) unsigned not null default '1' comment '书籍id',
+    author_id int(6) unsigned not null default '1' comment '作者id',
+    cup_type  varchar(255)  default '铜奖' comment '奖杯类型 ，金，银，铜'
+    cup_time  date   default '0000-00-00' comment '获奖时间'
+)ENGINE=InnoDB AUTO_INCREMENT=11576749 DEFAULT CHARSET=utf8mb comment '奖项表' ;
+
+
+create table authors(
+   id int(11) unsigned not null primary key auto_increment 
+   comment '作者表id',
+   author_id int(6) unsigned not null default '1' comment '作者id',
+   author_name varchar(255)   default '' comment '作者名字',
+   content smallint  default '1' comment '章节'
+)ENGINE=InnoDB AUTO_INCREMENT=11576749 DEFAULT CHARSET=utf8mb comment '作者表' ;
+
+二、设计索引,写出创建索引的语句
+
+   //创建索引
+  alter table library add unique uniq_author_id(author_id) 
+  alter table library add unique uniq_book_id(book_id)   
+  alter table library add index  idx_bname_pages_press(book_name ,pages,press);
+
+
+   alter table awards  add unique uniq_bookid(book_id);
+   alter table awards  add unique uniq_author_id( author_id);
+   alter table awards  add index  idx_cup_time(cup_time);
+   alter table awards  add index  idx_cup_type_time(cup_type , cup_time);
+
+
+
+  alter table authors add unique uniq_author_id(author_id);
+  alter table authors add index idx_author_name(author_name);
+  alter table authors add index idx_content( content);
+
+
+三、完成以下SQL
+1. 查询姓王的作者有多少
+2. 查询获奖作者总人数
+3. 查询同时获得过金奖、银奖的作者姓名
+4. 查询获得过金奖的图书有多少本，银奖的有多少本
+5. 查询最近一年内获过奖的作者姓名
+
+  1.  select  count(*) from authors where author_name like '王%';
+   2.  select  count( distinct author_id ) as author_sum  from awards ;
+   3.  select distinct author_name  from authors inner join awards on authors.author_id = awards.author_id And cup_type in('金奖','银奖');
+   4.  select cup_type , count( book_id ) as num  from awards where cup_type in ('金奖','银奖') group by cup_type ;
+   5.  select author_name ,cup_type , cup_time from authors inner join awards on authors.author_id = awards.author_id And awards.cup_time between '2016-01-01' and curdate();
+
+四、
+1. 如何查看表的结构信息？
+
+1. 方法一： show create table awards \G;
+     方法二： desc awards;
+
+2. 联合索引中的字段顺序应该如何设计？
+
+ 2.  依据最前缀原则，使用越频繁，就越往左边放置。
+
+3. int(10)和varchar(10)两个字段的(10)有什么区别？
+     varchar(10)表示的是存储长度为10字节，同时由于字节小于255，另需额外一个字节存储长度。所以总共十11字节，然而int(10)，中的10，并非是说占据10字节，而是表示显示的最大宽度为10，其占据的栈中的4字节并没有发生变化。也就是实际上的存储范围没有变化。
+
+
+
+4. 以下查询如何创建索引能够实现覆盖索引优化？(请给出具体SQL)
+select invalid_time_flag from pushtoken_android_62 
+where uid = 'AC54E24E-FB73-3981-C4BC-CED8D69407F8' 
+and pid = '10010'
+select count(*) from pushtoken_android_62 
+where uid = 'AC54E24E-FB73-3981-C4BC-CED8D69407F8' 
+and pid = '10010'
+
+  alter table pushtoken_android_62 add unique uniq_pid(pid);
+   alter table pushtoken_android_62 add unique uniq_uid(uid);
+
+
