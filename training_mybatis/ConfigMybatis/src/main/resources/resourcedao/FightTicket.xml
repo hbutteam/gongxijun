@@ -1,11 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--    id  qtalk_id employer_name tell work_address sex status-->
+<mapper namespace="com.qunar.fresh.bean.FightEmployers">
 
-<mapper namespace="com.qunar.fresh.bean.FightTicket">
-
-    <insert id="add" parameterType="com.qunar.fresh.bean.FightTicket">
-        insert into PageVistor ( name , cnt , url) values(#{name},#{cnt},#{url})
+    <!--增加数据-->
+    <insert id="add" parameterType="com.qunar.fresh.bean.FightEmployers">
+        INSERT  into Employers ( qtalk_id , employer_name , tell , work_address , sex ,status )
+         VALUES ( #{qtalk_id} ,#{employer_name} , #{tell},#{work_address},#{sex},#{status})
     </insert>
+
+    <!--删除数据-->
+    <delete id="remove" >
+        DELETE  FROM  Employers WHERE status ="离职"
+    </delete
+            >
+    <!--查询语句-->
+    <select id="query" resultType="com.qunar.fresh.bean.FightEmployers" parameterType="com.qunar.fresh.bean.FightEmployers">
+       SELECT *  FROM Employers WHERE sex =#{sex}  AND  work_address =#{work_address}
+    </select>
+
+   <!--查询通过员工ID -->
+    <select id="queryById" resultType="com.qunar.fresh.bean.FightEmployers" parameterType="java.lang.String">
+        SELECT *  FROM Employers WHERE id =#{id}
+    </select>
+    
+    <update id="modify"  parameterType="com.qunar.fresh.bean.FightEmployers">
+        UPDATE Employers SET tell = #{tell} WHERE id = #{id}
+    </update>
 
 </mapper>

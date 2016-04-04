@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="ema" class="com.qunar.fresh.bean.FightEmployers" autowire="default">
+        <property name="qtalk_id" value="465312"/>
+        <property name="employer_name" value="王小明"/>
+        <property name="tell" value="123456789012"/>
+        <property name="work_address" value="中国人民大学"/>
+        <property name="sex" value="男"/>
+        <property name="status" value="在职"/>
+    </bean>
+
+    <bean id="emb" class="com.qunar.fresh.bean.FightEmployers" autowire="default">
+        <property name="qtalk_id" value="465316"/>
+        <property name="employer_name" value="小王"/>
+        <property name="tell" value="1456789012"/>
+        <property name="work_address" value="中国人民大学"/>
+        <property name="sex" value="男"/>
+        <property name="status" value="在职"/>
+    </bean>
+
+</beans>
